@@ -18,7 +18,6 @@ fun Application.rootModule() {
     // configureRouting()
     // configureSecurity()
     // configureHTTP()
-    // configureMonitoring()
 
     install(ContentNegotiation) {
         json(Json(DefaultJson) {
@@ -39,6 +38,7 @@ fun Application.rootModule() {
 
     install(CallLogging) {
         level = Level.INFO
+        filter { call -> call.request.path().startsWith("/") }
         format { call ->
             val uri = call.request.uri
             val userAgent = call.request.headers["User-Agent"]
