@@ -48,9 +48,9 @@ fun Application.rootModule() {
 
     routing {
         get("/") {
-            call.respondText("Hello pk3444!", ContentType.Text.Html)
+            call.respondText("Hello pk3!", ContentType.Text.Html)
         }
-        get("/json/kotlinx-serialization") {
+        get("/test-json") {
             call.respond(mapOf("hello" to "world"))
         }
         get("/test-error") {

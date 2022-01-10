@@ -23,5 +23,17 @@ dependencies {
     implementation "ch.qos.logback:logback-classic:$logback_version"
 
     testImplementation "io.ktor:ktor-server-tests:$ktor_version"
-    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    testImplementation "io.kotest:kotest-runner-junit5:$kotest_version"
+    testImplementation "io.kotest:kotest-assertions-core:$kotest_version"
+    testImplementation "io.kotest.extensions:kotest-assertions-ktor:1.0.3"
+    testImplementation "io.kotest.extensions:kotest-extensions-koin:1.1.0"
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        showStandardStreams true
+        events 'started', 'skipped', 'passed', 'failed'
+        exceptionFormat 'full'
+    }
 }
