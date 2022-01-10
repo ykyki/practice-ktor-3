@@ -39,6 +39,14 @@ class ApplicationSpec : StringSpec() {
                 exception.message shouldBe "エラーテストページにアクセスしました"
             }
         }
+        "GET: page not exist" {
+            withRootModule {
+                handleRequest(method = HttpMethod.Get, uri = "/page-0123456789abc").apply {
+                    response shouldHaveStatus HttpStatusCode.NotFound
+                    response.content shouldBe "Page not found"
+                }
+            }
+        }
     }
 }
 
