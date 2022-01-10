@@ -3,10 +3,12 @@ package com.example.pk3
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.http.*
+import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.serialization.*
 import kotlinx.serialization.json.Json
+import org.slf4j.event.Level
 
 fun main(args: Array<String>): Unit =
     io.ktor.server.netty.EngineMain.main(args)
@@ -32,6 +34,18 @@ fun Application.rootModule() {
 
         status(HttpStatusCode.NotFound) {
             call.respond(HttpStatusCode.NotFound, "Page not found")
+        }
+    }
+
+    install(CallLogging) {
+        level = Level.INFO
+        format { call ->
+            val uri = call.request.uri
+            val userAgent = call.request.headers["User-Agent"]
+            val httpMethod = call.request.httpMethod.value
+            val status = call.response.status()
+
+            "Request($uri, $httpMethod, $userAgent); Response($status)"
         }
     }
 
