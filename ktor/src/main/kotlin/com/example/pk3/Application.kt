@@ -24,6 +24,17 @@ fun Application.rootModule() {
         })
     }
 
+    install(StatusPages) {
+        exception<Exception> {
+            call.respond(HttpStatusCode.InternalServerError, "Internal Server Error")
+            throw it
+        }
+
+        status(HttpStatusCode.NotFound) {
+            call.respond(HttpStatusCode.NotFound, "Page not found")
+        }
+    }
+
     routing {
         get("/") {
             call.respondText("Hello pk3444!", ContentType.Text.Html)
@@ -31,6 +42,10 @@ fun Application.rootModule() {
 
         get("/json/kotlinx-serialization") {
             call.respond(mapOf("hello" to "world"))
+        }
+
+        get("/test-error") {
+            throw RuntimeException("エラー！")
         }
     }
 }
