@@ -1,9 +1,12 @@
 package com.example.pk3
 
 import io.ktor.application.*
+import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import io.ktor.serialization.*
+import kotlinx.serialization.json.Json
 
 fun main(args: Array<String>): Unit =
     io.ktor.server.netty.EngineMain.main(args)
@@ -14,11 +17,20 @@ fun Application.rootModule() {
     // configureSecurity()
     // configureHTTP()
     // configureMonitoring()
-    // configureSerialization()
+
+    install(ContentNegotiation) {
+        json(Json(DefaultJson) {
+            prettyPrint = true
+        })
+    }
 
     routing {
         get("/") {
             call.respondText("Hello pk3444!", ContentType.Text.Html)
+        }
+
+        get("/json/kotlinx-serialization") {
+            call.respond(mapOf("hello" to "world"))
         }
     }
 }
