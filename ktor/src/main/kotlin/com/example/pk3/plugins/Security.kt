@@ -1,19 +1,19 @@
 package com.example.pk3.plugins
 
-import io.ktor.auth.*
-import io.ktor.util.*
-import io.ktor.auth.jwt.*
 import com.auth0.jwt.JWT
-import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
-import io.ktor.sessions.*
 import io.ktor.application.*
+import io.ktor.auth.*
+import io.ktor.auth.jwt.*
 import io.ktor.response.*
-import io.ktor.request.*
 import io.ktor.routing.*
+import io.ktor.sessions.*
+import io.ktor.util.*
+import kotlin.collections.Map
+import kotlin.collections.mapOf
+import kotlin.collections.set
 
 fun Application.configureSecurity() {
-
     authentication {
         basic(name = "myauth1") {
             realm = "Ktor Server"

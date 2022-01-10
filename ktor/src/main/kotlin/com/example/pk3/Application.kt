@@ -15,9 +15,7 @@ fun main(args: Array<String>): Unit =
 
 @Suppress("unused")
 fun Application.rootModule() {
-    // configureRouting()
     // configureSecurity()
-    // configureHTTP()
 
     install(ContentNegotiation) {
         json(Json(DefaultJson) {
