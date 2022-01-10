@@ -5,9 +5,9 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.server.testing.*
+import withRootModule
 
 class ApplicationSpec : StringSpec() {
     init {
@@ -47,11 +47,5 @@ class ApplicationSpec : StringSpec() {
                 }
             }
         }
-    }
-}
-
-fun withRootModule(testCallBack: TestApplicationEngine.() -> Unit) {
-    withTestApplication(Application::rootModule) {
-        testCallBack()
     }
 }
