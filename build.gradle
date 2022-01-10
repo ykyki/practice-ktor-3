@@ -6,8 +6,4 @@ plugins {
 allprojects {
     group "com.mypractice.kt"
     version "0.0.1"
-
-    repositories {
-        mavenCentral()
-    }
 }
