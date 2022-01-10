@@ -1,5 +1,8 @@
 package com.example.pk3
 
+import com.example.pk3.domain.tutorial.customer.CustomerRepository
+import com.example.pk3.domain.tutorial.customer.CustomerRepositoryInMemory
+import com.example.pk3.router.registerCustomerRouter
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.http.*
@@ -8,10 +11,17 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.serialization.*
 import kotlinx.serialization.json.Json
+import org.koin.dsl.module
+import org.koin.ktor.ext.Koin
+import org.koin.logger.SLF4JLogger
 import org.slf4j.event.Level
 
 fun main(args: Array<String>): Unit =
     io.ktor.server.netty.EngineMain.main(args)
+
+val sampleDiModule = module {
+    single<CustomerRepository> { CustomerRepositoryInMemory() }
+}
 
 @Suppress("unused")
 fun Application.rootModule() {
@@ -45,6 +55,10 @@ fun Application.rootModule() {
             "Request($uri, $httpMethod, $userAgent); Response($status)"
         }
     }
+    install(Koin) {
+        SLF4JLogger()
+        modules(sampleDiModule)
+    }
 
     routing {
         get("/") {
@@ -57,4 +71,5 @@ fun Application.rootModule() {
             throw RuntimeException("エラーテストページにアクセスしました")
         }
     }
+    registerCustomerRouter()
 }
