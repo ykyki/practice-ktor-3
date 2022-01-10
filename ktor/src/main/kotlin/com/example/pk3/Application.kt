@@ -9,7 +9,7 @@ fun main(args: Array<String>): Unit =
     io.ktor.server.netty.EngineMain.main(args)
 
 @Suppress("unused") // application.conf references the main function. This annotation prevents the IDE from marking it as unused.
-fun Application.module() {
+fun Application.rootModule() {
     // configureRouting()
     // configureSecurity()
     // configureHTTP()
@@ -18,7 +18,7 @@ fun Application.module() {
 
     routing {
         get("/") {
-            call.respondText("Hello pk3!", ContentType.Text.Html)
+            call.respondText("Hello pk3444!", ContentType.Text.Html)
         }
     }
 }
