@@ -45,7 +45,7 @@ fun Application.rootModule() {
         }
 
         get("/test-error") {
-            throw RuntimeException("エラー！")
+            throw RuntimeException("エラーテストページにアクセスしました")
         }
     }
 }
