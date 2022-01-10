@@ -13,7 +13,7 @@ import org.slf4j.event.Level
 fun main(args: Array<String>): Unit =
     io.ktor.server.netty.EngineMain.main(args)
 
-@Suppress("unused") // application.conf references the main function. This annotation prevents the IDE from marking it as unused.
+@Suppress("unused")
 fun Application.rootModule() {
     // configureRouting()
     // configureSecurity()
@@ -24,7 +24,6 @@ fun Application.rootModule() {
             prettyPrint = true
         })
     }
-
     install(StatusPages) {
         exception<Exception> {
             call.respond(HttpStatusCode.InternalServerError, "Internal Server Error")
@@ -35,9 +34,9 @@ fun Application.rootModule() {
             call.respond(HttpStatusCode.NotFound, "Page not found")
         }
     }
-
     install(CallLogging) {
         level = Level.INFO
+
         filter { call -> call.request.path().startsWith("/") }
         format { call ->
             val uri = call.request.uri
@@ -53,11 +52,9 @@ fun Application.rootModule() {
         get("/") {
             call.respondText("Hello pk3444!", ContentType.Text.Html)
         }
-
         get("/json/kotlinx-serialization") {
             call.respond(mapOf("hello" to "world"))
         }
-
         get("/test-error") {
             throw RuntimeException("エラーテストページにアクセスしました")
         }
