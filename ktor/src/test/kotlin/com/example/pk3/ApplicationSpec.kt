@@ -9,43 +9,41 @@ import io.ktor.http.*
 import io.ktor.server.testing.*
 import withTestRootModule
 
-class ApplicationSpec : StringSpec() {
-    init {
-        "GET: /" {
-            withTestRootModule {
-                handleRequest(method = HttpMethod.Get, uri = "/").apply {
-                    response shouldHaveStatus HttpStatusCode.OK
-                    response.content shouldBe "Hello pk3!"
-                }
-            }
-        }
-        "GET: /test-json" {
-            withTestRootModule {
-                handleRequest(method = HttpMethod.Get, uri = "/test-json").apply {
-                    response shouldHaveStatus HttpStatusCode.OK
-                    response.content shouldNotBe null
-                }
-            }
-        }
-        "GET: /test-error" {
-            withTestRootModule {
-                val exception = shouldThrow<RuntimeException> {
-                    handleRequest(method = HttpMethod.Get, uri = "/test-error").apply {
-                        response shouldHaveStatus HttpStatusCode.InternalServerError
-                        response.content shouldBe "Internal Server Error"
-                    }
-                }
-
-                exception.message shouldBe "エラーテストページにアクセスしました"
-            }
-        }
-        "GET: page not exist" {
-            withTestRootModule {
-                handleRequest(method = HttpMethod.Get, uri = "/page-0123456789abc").apply {
-                    response shouldHaveStatus HttpStatusCode.NotFound
-                    response.content shouldBe "Page not found"
-                }
+class ApplicationSpec : StringSpec({
+    "GET: /" {
+        withTestRootModule {
+            handleRequest(method = HttpMethod.Get, uri = "/").apply {
+                response shouldHaveStatus HttpStatusCode.OK
+                response.content shouldBe "Hello pk3!"
             }
         }
     }
-}
+    "GET: /test-json" {
+        withTestRootModule {
+            handleRequest(method = HttpMethod.Get, uri = "/test-json").apply {
+                response shouldHaveStatus HttpStatusCode.OK
+                response.content shouldNotBe null
+            }
+        }
+    }
+    "GET: /test-error" {
+        withTestRootModule {
+            val exception = shouldThrow<RuntimeException> {
+                handleRequest(method = HttpMethod.Get, uri = "/test-error").apply {
+                    response shouldHaveStatus HttpStatusCode.InternalServerError
+                    response.content shouldBe "Internal Server Error"
+                }
+            }
+
+            exception.message shouldBe "エラーテストページにアクセスしました"
+        }
+    }
+    "GET: page not exist" {
+        withTestRootModule {
+            handleRequest(method = HttpMethod.Get, uri = "/page-0123456789abc").apply {
+                response shouldHaveStatus HttpStatusCode.NotFound
+                response.content shouldBe "Page not found"
+            }
+        }
+    }
+})

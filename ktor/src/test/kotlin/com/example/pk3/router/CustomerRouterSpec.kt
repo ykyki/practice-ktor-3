@@ -9,30 +9,29 @@ import io.ktor.http.*
 import io.ktor.server.testing.*
 import withTestRootModule
 
-class CustomerRoutesSpec : StringSpec() {
-    init {
-        "Get: /customer" {
-            withTestRootModule {
-                handleRequest(method = HttpMethod.Get, uri = "/customer").apply {
-                    response shouldHaveStatus HttpStatusCode.OK
-                    response.content shouldNotBe null
-                }
+class CustomerRoutesSpec : StringSpec({
+    "Get: /customer" {
+        withTestRootModule {
+            handleRequest(method = HttpMethod.Get, uri = "/customer").apply {
+                response shouldHaveStatus HttpStatusCode.OK
+                response.content shouldNotBe null
             }
         }
-        "GET: /customer/abc000 should returns BadRequest" {
-            withTestRootModule {
-                handleRequest(method = HttpMethod.Get, uri = "/customer/abc000").apply {
-                    response shouldHaveStatus HttpStatusCode.BadRequest
-                    response.content shouldBe "id should be Long"
-                }
+    }
+    "GET: /customer/abc000 should returns BadRequest" {
+        withTestRootModule {
+            handleRequest(method = HttpMethod.Get, uri = "/customer/abc000").apply {
+                response shouldHaveStatus HttpStatusCode.BadRequest
+                response.content shouldBe "id should be Long"
             }
         }
-        "POST(correct customer): /customer" {
-            withTestRootModule {
-                handleRequest(method = HttpMethod.Post, uri = "/customer") {
-                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    setBody(
-                        """
+    }
+    "POST(correct customer): /customer" {
+        withTestRootModule {
+            handleRequest(method = HttpMethod.Post, uri = "/customer") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody(
+                    """
                           {
                             "id": 1234567890,
                             "firstName": "太郎",
@@ -40,12 +39,11 @@ class CustomerRoutesSpec : StringSpec() {
                             "email": "test@example.com"
                           }
                         """.trimIndent()
-                    )
-                }.apply {
-                    response shouldHaveStatus HttpStatusCode.Created
-                    response.content shouldStartWith "Customer stored correctly!:"
-                }
+                )
+            }.apply {
+                response shouldHaveStatus HttpStatusCode.Created
+                response.content shouldStartWith "Customer stored correctly!:"
             }
         }
     }
-}
+})
