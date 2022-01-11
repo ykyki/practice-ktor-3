@@ -10,7 +10,7 @@ import io.ktor.server.testing.*
 import withTestRootModule
 
 class CustomerRoutesSpec : StringSpec({
-    "Get: /customer" {
+    "GET: /customer" {
         withTestRootModule {
             handleRequest(method = HttpMethod.Get, uri = "/customer").apply {
                 response shouldHaveStatus HttpStatusCode.OK
