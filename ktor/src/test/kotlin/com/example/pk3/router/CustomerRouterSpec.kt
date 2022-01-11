@@ -7,17 +7,12 @@ import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.shouldStartWith
 import io.ktor.http.*
 import io.ktor.server.testing.*
-import org.koin.test.KoinTest
-import withRootModule
+import withTestRootModule
 
-class CustomerRoutesSpec : StringSpec(), KoinTest {
-    // override fun extensions() = listOf<Extension>(
-    //     KoinExtension(module = sampleDiModule, mode = KoinLifecycleMode.Test)
-    // )
-
+class CustomerRoutesSpec : StringSpec() {
     init {
         "Get: /customer" {
-            withRootModule {
+            withTestRootModule {
                 handleRequest(method = HttpMethod.Get, uri = "/customer").apply {
                     response shouldHaveStatus HttpStatusCode.OK
                     response.content shouldNotBe null
@@ -25,7 +20,7 @@ class CustomerRoutesSpec : StringSpec(), KoinTest {
             }
         }
         "GET: /customer/abc000 should returns BadRequest" {
-            withRootModule {
+            withTestRootModule {
                 handleRequest(method = HttpMethod.Get, uri = "/customer/abc000").apply {
                     response shouldHaveStatus HttpStatusCode.BadRequest
                     response.content shouldBe "id should be Long"
@@ -33,7 +28,7 @@ class CustomerRoutesSpec : StringSpec(), KoinTest {
             }
         }
         "POST(correct customer): /customer" {
-            withRootModule {
+            withTestRootModule {
                 handleRequest(method = HttpMethod.Post, uri = "/customer") {
                     addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     setBody(

@@ -11,6 +11,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.serialization.*
 import kotlinx.serialization.json.Json
+import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.ktor.ext.Koin
 import org.koin.logger.SLF4JLogger
@@ -19,19 +20,41 @@ import org.slf4j.event.Level
 fun main(args: Array<String>): Unit =
     io.ktor.server.netty.EngineMain.main(args)
 
-val sampleDiModule = module {
-    single<CustomerRepository> { CustomerRepositoryInMemory() }
-}
-
 @Suppress("unused")
 fun Application.rootModule() {
     // configureSecurity()
+    configureRootContentNegotiation()
+    configureRootStatusPages()
+    configureRootLogging()
+    configureRootKoin(rootDiModule)
 
+    rootRouter()
+}
+
+fun Application.rootRouter() {
+    routing {
+        get("/") {
+            call.respondText("Hello pk3!", ContentType.Text.Html)
+        }
+        get("/test-json") {
+            call.respond(mapOf("hello" to "world"))
+        }
+        get("/test-error") {
+            throw RuntimeException("エラーテストページにアクセスしました")
+        }
+    }
+    registerCustomerRouter()
+}
+
+fun Application.configureRootContentNegotiation() {
     install(ContentNegotiation) {
         json(Json(DefaultJson) {
             prettyPrint = true
         })
     }
+}
+
+fun Application.configureRootStatusPages() {
     install(StatusPages) {
         exception<Exception> {
             call.respond(HttpStatusCode.InternalServerError, "Internal Server Error")
@@ -42,6 +65,9 @@ fun Application.rootModule() {
             call.respond(HttpStatusCode.NotFound, "Page not found")
         }
     }
+}
+
+fun Application.configureRootLogging() {
     install(CallLogging) {
         level = Level.INFO
 
@@ -55,21 +81,15 @@ fun Application.rootModule() {
             "Request($uri, $httpMethod, $userAgent); Response($status)"
         }
     }
+}
+
+fun Application.configureRootKoin(koinModule: Module) {
     install(Koin) {
         SLF4JLogger()
-        modules(sampleDiModule)
+        modules(koinModule)
     }
+}
 
-    routing {
-        get("/") {
-            call.respondText("Hello pk3!", ContentType.Text.Html)
-        }
-        get("/test-json") {
-            call.respond(mapOf("hello" to "world"))
-        }
-        get("/test-error") {
-            throw RuntimeException("エラーテストページにアクセスしました")
-        }
-    }
-    registerCustomerRouter()
+val rootDiModule = module {
+    single<CustomerRepository> { CustomerRepositoryInMemory() }
 }

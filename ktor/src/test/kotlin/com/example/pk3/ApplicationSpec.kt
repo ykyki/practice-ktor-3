@@ -7,12 +7,12 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.ktor.http.*
 import io.ktor.server.testing.*
-import withRootModule
+import withTestRootModule
 
 class ApplicationSpec : StringSpec() {
     init {
         "GET: /" {
-            withRootModule {
+            withTestRootModule {
                 handleRequest(method = HttpMethod.Get, uri = "/").apply {
                     response shouldHaveStatus HttpStatusCode.OK
                     response.content shouldBe "Hello pk3!"
@@ -20,7 +20,7 @@ class ApplicationSpec : StringSpec() {
             }
         }
         "GET: /test-json" {
-            withRootModule {
+            withTestRootModule {
                 handleRequest(method = HttpMethod.Get, uri = "/test-json").apply {
                     response shouldHaveStatus HttpStatusCode.OK
                     response.content shouldNotBe null
@@ -28,7 +28,7 @@ class ApplicationSpec : StringSpec() {
             }
         }
         "GET: /test-error" {
-            withRootModule {
+            withTestRootModule {
                 val exception = shouldThrow<RuntimeException> {
                     handleRequest(method = HttpMethod.Get, uri = "/test-error").apply {
                         response shouldHaveStatus HttpStatusCode.InternalServerError
@@ -40,7 +40,7 @@ class ApplicationSpec : StringSpec() {
             }
         }
         "GET: page not exist" {
-            withRootModule {
+            withTestRootModule {
                 handleRequest(method = HttpMethod.Get, uri = "/page-0123456789abc").apply {
                     response shouldHaveStatus HttpStatusCode.NotFound
                     response.content shouldBe "Page not found"
