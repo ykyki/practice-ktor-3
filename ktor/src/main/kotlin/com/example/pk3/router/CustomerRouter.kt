@@ -26,13 +26,8 @@ private fun Route.customerRouting(
         get {
             val allCustomer = customerRepository.findAll()
 
-            if (allCustomer.isNotEmpty()) {
-                call.respond(allCustomer)
-            } else {
-                call.respondText("No customer found")
-            }
+            call.respond(allCustomer)
         }
-
         get("{id}") {
             val id = call.parameters.longOf("id")
 
@@ -40,7 +35,6 @@ private fun Route.customerRouting(
 
             call.respond(customer)
         }
-
         post {
             val customer = call.receiveOrNull<Customer>() ?: return@post call.respondText("Illegal post")
 
@@ -48,7 +42,6 @@ private fun Route.customerRouting(
 
             call.respondText("Customer stored correctly!: $customer", status = HttpStatusCode.Created)
         }
-
         delete("{id}") {
             val id = call.parameters.longOf("id")
 
