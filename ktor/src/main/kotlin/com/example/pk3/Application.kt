@@ -56,13 +56,18 @@ fun Application.configureRootContentNegotiation() {
 
 fun Application.configureRootStatusPages() {
     install(StatusPages) {
-        exception<Exception> {
-            call.respond(HttpStatusCode.InternalServerError, "Internal Server Error")
-            throw it
+        exception<BadRequestException> {
+            call.respond(HttpStatusCode.BadRequest, it.message.toString())
+        }
+        exception<NotFoundException> {
+            call.respond(HttpStatusCode.NotFound, it.message.toString())
         }
 
         status(HttpStatusCode.NotFound) {
             call.respond(HttpStatusCode.NotFound, "Page not found")
+        }
+        status(HttpStatusCode.InternalServerError) {
+            call.respond(HttpStatusCode.InternalServerError, "Internal server error")
         }
     }
 }

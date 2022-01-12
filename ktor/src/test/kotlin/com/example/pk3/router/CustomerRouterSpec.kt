@@ -18,11 +18,19 @@ class CustomerRoutesSpec : StringSpec({
             }
         }
     }
-    "GET: /customer/abc000 should returns BadRequest" {
+    "GET: /customer/abc000 should return BadRequest" {
         withTestRootModule {
             handleRequest(method = HttpMethod.Get, uri = "/customer/abc000").apply {
                 response shouldHaveStatus HttpStatusCode.BadRequest
-                response.content shouldBe "id should be Long"
+                response.content shouldBe "Request parameter id couldn't be parsed/converted to Long"
+            }
+        }
+    }
+    "GET: /customer/9999 should return NotFound" {
+        withTestRootModule {
+            handleRequest(method = HttpMethod.Get, uri = "/customer/9999").apply {
+                response shouldHaveStatus HttpStatusCode.NotFound
+                response.content shouldBe "No customer found (id = 9999)"
             }
         }
     }

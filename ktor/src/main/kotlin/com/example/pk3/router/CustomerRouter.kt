@@ -2,7 +2,9 @@ package com.example.pk3.router
 
 import com.example.pk3.domain.tutorial.customer.Customer
 import com.example.pk3.domain.tutorial.customer.CustomerRepository
+import com.example.pk3.util.longOf
 import io.ktor.application.*
+import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
@@ -32,21 +34,9 @@ private fun Route.customerRouting(
         }
 
         get("{id}") {
-            val idForm = call.parameters["id"] ?: return@get call.respondText(
-                "Missing or malformed id",
-                status = HttpStatusCode.BadRequest
-            )
+            val id = call.parameters.longOf("id")
 
-            val id: Long = idForm.toLongOrNull() ?: return@get call.respondText(
-                "id should be Long",
-                status = HttpStatusCode.BadRequest
-            )
-
-            val customer =
-                customerRepository.find(id) ?: return@get call.respondText(
-                    "No customer with id $id",
-                    status = HttpStatusCode.NotFound
-                )
+            val customer = customerRepository.find(id) ?: throw NotFoundException("No customer found (id = $id)")
 
             call.respond(customer)
         }
@@ -60,15 +50,7 @@ private fun Route.customerRouting(
         }
 
         delete("{id}") {
-            val idForm = call.parameters["id"] ?: return@delete call.respondText(
-                "Missing or malformed id",
-                status = HttpStatusCode.BadRequest
-            )
-
-            val id: Long = idForm.toLongOrNull() ?: return@delete call.respondText(
-                "id should be Long",
-                status = HttpStatusCode.BadRequest
-            )
+            val id = call.parameters.longOf("id")
 
             val isDeleted = customerRepository.delete(id)
 
