@@ -2,7 +2,7 @@ package com.example.pk3.router
 
 import com.example.pk3.domain.tutorial.customer.Customer
 import com.example.pk3.domain.tutorial.customer.CustomerRepository
-import com.example.pk3.util.longOf
+import com.example.pk3.util.getLong
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.http.*
@@ -29,7 +29,7 @@ private fun Route.customerRouting(
             call.respond(allCustomer)
         }
         get("{id}") {
-            val id = call.parameters.longOf("id")
+            val id = call.parameters.getLong("id")
 
             val customer = customerRepository.find(id) ?: throw NotFoundException("No customer found (id = $id)")
 
@@ -43,7 +43,7 @@ private fun Route.customerRouting(
             call.respondText("Customer stored correctly!: $customer", status = HttpStatusCode.Created)
         }
         delete("{id}") {
-            val id = call.parameters.longOf("id")
+            val id = call.parameters.getLong("id")
 
             val isDeleted = customerRepository.delete(id)
 
