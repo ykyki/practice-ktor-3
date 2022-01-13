@@ -2,6 +2,7 @@ package com.example.pk3
 
 import com.example.pk3.domain.tutorial.customer.CustomerRepository
 import com.example.pk3.domain.tutorial.customer.CustomerRepositoryInMemory
+import com.example.pk3.router.registerAssetFileRouter
 import com.example.pk3.router.registerCustomerRouter
 import io.ktor.application.*
 import io.ktor.features.*
@@ -44,6 +45,7 @@ fun Application.rootRouter() {
         }
     }
     registerCustomerRouter()
+    registerAssetFileRouter()
 }
 
 fun Application.configureRootContentNegotiation() {
