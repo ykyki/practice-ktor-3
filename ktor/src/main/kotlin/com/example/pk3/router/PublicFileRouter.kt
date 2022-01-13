@@ -5,7 +5,7 @@ import io.ktor.http.content.*
 import io.ktor.routing.*
 import java.io.File
 
-fun Application.registerAssetFileRouter() {
+fun Application.registerPublicFileRouter() {
     routing {
         println("-----------------123241")
         println(File("").absolutePath)

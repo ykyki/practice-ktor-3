@@ -8,7 +8,7 @@ import io.ktor.http.*
 import io.ktor.server.testing.*
 import withTestRootModule
 
-class AssetFileRouterSpec : StringSpec({
+class PublicFileRouterKtSpec : StringSpec({
     "GET: /files" {
         withTestRootModule {
             handleRequest(method = HttpMethod.Get, uri = "/files").apply {

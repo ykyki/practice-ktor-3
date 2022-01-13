@@ -9,7 +9,7 @@ import io.ktor.http.*
 import io.ktor.server.testing.*
 import withTestRootModule
 
-class CustomerRoutesSpec : StringSpec({
+class CustomerRouterKtSpec : StringSpec({
     "GET: /customer" {
         withTestRootModule {
             handleRequest(method = HttpMethod.Get, uri = "/customer").apply {
