@@ -14,10 +14,10 @@ class ParameterConvertersSpec : FunSpec({
             }
         }
         context("異常系") {
-            test("Missing parameter") {
+            xtest("Missing parameter") {
                 // TODO
             }
-            test("Parameter conversion fails") {
+            xtest("Parameter conversion fails") {
                 // TODO
             }
         }
