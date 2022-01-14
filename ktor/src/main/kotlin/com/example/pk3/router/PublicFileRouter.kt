@@ -1,18 +1,14 @@
 package com.example.pk3.router
 
+import com.example.pk3.configuration.envPublicFile
 import io.ktor.application.*
 import io.ktor.http.content.*
 import io.ktor.routing.*
-import java.io.File
 
 fun Application.registerPublicFileRouter() {
     routing {
-        println("-----------------123241")
-        println(File("").absolutePath)
-        println(System.getenv("PK3_KTOR_PATH"))
-
         static("files") {
-            staticRootFolder = File("public")
+            staticRootFolder = envPublicFile()
 
             default("default.txt")
             files("sample-files")
