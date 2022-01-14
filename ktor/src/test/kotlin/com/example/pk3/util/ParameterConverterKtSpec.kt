@@ -4,7 +4,7 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.longs.shouldBeExactly
 import io.ktor.http.*
 
-class ParameterConvertersSpec : FunSpec({
+class ParameterConverterKtSpec : FunSpec({
     context("getLong") {
         context("正常系") {
             test("sample case") {
