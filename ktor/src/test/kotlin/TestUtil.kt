@@ -1,6 +1,10 @@
-import com.example.pk3.*
+import com.example.pk3.configuration.configurLogging
+import com.example.pk3.configuration.configureContentNegotiation
+import com.example.pk3.configuration.configureKoin
+import com.example.pk3.configuration.configureStatusPages
 import com.example.pk3.domain.tutorial.customer.CustomerRepository
 import com.example.pk3.domain.tutorial.customer.CustomerRepositoryInMemory
+import com.example.pk3.rootRouter
 import com.typesafe.config.ConfigFactory
 import io.ktor.application.*
 import io.ktor.config.*
@@ -18,10 +22,10 @@ fun withTestRootModule(test: TestApplicationEngine.() -> Unit) =
     }
 
 private fun Application.testRootModule() {
-    configureRootContentNegotiation()
-    configureRootStatusPages()
-    configureRootLogging()
-    configureRootKoin(testRootDiModule)
+    configureContentNegotiation()
+    configureStatusPages()
+    configurLogging()
+    configureKoin(testRootDiModule)
 
     rootRouter()
 }
