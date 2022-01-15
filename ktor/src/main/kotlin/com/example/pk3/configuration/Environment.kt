@@ -1,11 +1,16 @@
 package com.example.pk3.configuration
 
 import io.ktor.application.*
-import java.io.File
+import java.nio.file.Path
+import kotlin.io.path.Path
 
 /*
     confファイルを読み取ってenvを設定する
  */
 
-fun Application.envPublicFile(): File =
-    File(environment.config.property("publicPath").getString())
+fun Application.envStoragePath(): Path =
+    Path(environment.config.property("storagePath").getString())
+
+
+fun Application.envPublicPath(): Path =
+    Path(envStoragePath().toString(), "public")
