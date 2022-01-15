@@ -4,7 +4,7 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldNotBe
 import withTestRootModule
 
-class ApplicationEnvironmentReaderKtSpec : StringSpec({
+class EnvironmentKtSpec : StringSpec({
     "envPublicFile" {
         withTestRootModule {
             application.envPublicFile() shouldNotBe null
