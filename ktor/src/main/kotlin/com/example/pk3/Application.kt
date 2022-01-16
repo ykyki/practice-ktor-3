@@ -3,6 +3,7 @@ package com.example.pk3
 import com.example.pk3.configuration.*
 import com.example.pk3.router.registerCustomerRouter
 import com.example.pk3.router.registerPublicFileRouter
+import com.example.subsample.Sample
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.response.*
@@ -29,6 +30,9 @@ fun Application.rootRouter() {
         }
         get("/test-json") {
             call.respond(mapOf("hello" to "world"))
+        }
+        get("/test-sub-sample") {
+            call.respondText("From sub sample project: " + Sample().get("foo"))
         }
         get("/test-error") {
             throw RuntimeException("エラーテストページにアクセスしました")

@@ -1,5 +1,6 @@
 package com.example.pk3
 
+import io.kotest.assertions.ktor.shouldHaveContent
 import io.kotest.assertions.ktor.shouldHaveStatus
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
@@ -23,6 +24,14 @@ class ApplicationSpec : StringSpec({
             handleRequest(method = HttpMethod.Get, uri = "/test-json").apply {
                 response shouldHaveStatus HttpStatusCode.OK
                 response.content shouldNotBe null
+            }
+        }
+    }
+    "GET: /test-sub-sample" {
+        withTestRootModule {
+            handleRequest(method = HttpMethod.Get, uri = "/test-sub-sample").apply {
+                response shouldHaveStatus HttpStatusCode.OK
+                response shouldHaveContent "From sub sample project: sub-sample-012345:foo"
             }
         }
     }
