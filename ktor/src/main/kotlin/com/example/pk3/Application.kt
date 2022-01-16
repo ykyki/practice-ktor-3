@@ -16,7 +16,7 @@ fun Application.rootModule() {
     // configureSecurity()
     configureContentNegotiation()
     configureStatusPages()
-    configurLogging()
+    configureLogging()
     configureKoin(rootDiModule)
 
     rootRouter()

@@ -5,7 +5,7 @@ import io.ktor.features.*
 import io.ktor.request.*
 import org.slf4j.event.Level
 
-fun Application.configurLogging() {
+fun Application.configureLogging() {
     install(CallLogging) {
         level = Level.INFO
 

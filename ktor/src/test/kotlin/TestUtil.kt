@@ -1,4 +1,4 @@
-import com.example.pk3.configuration.configurLogging
+import com.example.pk3.configuration.configureLogging
 import com.example.pk3.configuration.configureContentNegotiation
 import com.example.pk3.configuration.configureKoin
 import com.example.pk3.configuration.configureStatusPages
@@ -24,7 +24,7 @@ fun withTestRootModule(test: TestApplicationEngine.() -> Unit) =
 private fun Application.testRootModule() {
     configureContentNegotiation()
     configureStatusPages()
-    configurLogging()
+    configureLogging()
     configureKoin(testRootDiModule)
 
     rootRouter()
