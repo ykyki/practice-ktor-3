@@ -1,7 +1,7 @@
-import com.example.pk3.configuration.configureLogging
 import com.example.pk3.configuration.configureContentNegotiation
 import com.example.pk3.configuration.configureKoin
-import com.example.pk3.configuration.configureStatusPages
+import com.example.pk3.configuration.configureLogging
+import com.example.pk3.configuration.configureStatusPage
 import com.example.pk3.domain.tutorial.customer.CustomerRepository
 import com.example.pk3.domain.tutorial.customer.CustomerRepositoryInMemory
 import com.example.pk3.rootRouter
@@ -23,7 +23,7 @@ fun withTestRootModule(test: TestApplicationEngine.() -> Unit) =
 
 private fun Application.testRootModule() {
     configureContentNegotiation()
-    configureStatusPages()
+    configureStatusPage()
     configureLogging()
     configureKoin(testRootDiModule)
 

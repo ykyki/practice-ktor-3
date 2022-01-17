@@ -16,7 +16,7 @@ fun main(args: Array<String>): Unit =
 fun Application.rootModule() {
     // configureSecurity()
     configureContentNegotiation()
-    configureStatusPages()
+    configureStatusPage()
     configureLogging()
     configureKoin(rootDiModule)
 

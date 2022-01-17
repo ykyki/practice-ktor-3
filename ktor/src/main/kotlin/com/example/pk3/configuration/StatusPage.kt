@@ -5,7 +5,7 @@ import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.response.*
 
-fun Application.configureStatusPages() {
+fun Application.configureStatusPage() {
     install(StatusPages) {
         exception<BadRequestException> {
             call.respond(HttpStatusCode.BadRequest, it.message.toString())
