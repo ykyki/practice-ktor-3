@@ -13,7 +13,7 @@ import kotlin.collections.Map
 import kotlin.collections.mapOf
 import kotlin.collections.set
 
-fun Application.configureSecurity() {
+fun Application.configureSecuritySample() {
     authentication {
         basic(name = "myauth1") {
             realm = "Ktor Server"
