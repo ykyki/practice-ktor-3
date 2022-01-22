@@ -1,10 +1,12 @@
 package com.example.pk3
 
 import com.example.pk3.configuration.*
+import com.example.pk3.configuration.authentication.AuthenticationGroup
 import com.example.pk3.router.registerCustomerRouter
 import com.example.pk3.router.registerPublicFileRouter
 import com.example.subsample.Sample
 import io.ktor.application.*
+import io.ktor.auth.*
 import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
@@ -19,6 +21,7 @@ fun Application.rootModule() {
     configureStatusPage()
     configureLogging()
     configureKoin(rootDiModule)
+    configureAuthentication()
 
     rootRouter()
 }
@@ -36,6 +39,28 @@ fun Application.rootRouter() {
         }
         get("/test-error") {
             throw RuntimeException("エラーテストページにアクセスしました")
+        }
+        authenticate(AuthenticationGroup.DigestSampleA.groupName) {
+            route("/test-digest-a") {
+                get {
+                    call.respondText("Authorized!")
+                }
+                get("/user") {
+                    val principal = call.principal<UserIdPrincipal>()!!
+                    call.respondText("Hello ${principal.name} at Digest")
+                }
+            }
+        }
+        authenticate(AuthenticationGroup.DigestSampleA.groupName) {
+            route("/test-digest-a/sub") {
+                get {
+                    call.respondText("Authorized!")
+                }
+                get("/user") {
+                    val principal = call.principal<UserIdPrincipal>()!!
+                    call.respondText("Sub: Hello ${principal.name} at Digest")
+                }
+            }
         }
     }
     registerCustomerRouter()

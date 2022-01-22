@@ -1,5 +1,7 @@
 package com.example.pk3.configuration
 
+import com.example.pk3.configuration.authentication.AuthenticationRepository
+import com.example.pk3.configuration.authentication.AuthenticationRepositoryInMemory
 import com.example.pk3.domain.tutorial.customer.CustomerRepository
 import com.example.pk3.domain.tutorial.customer.CustomerRepositoryInMemory
 import io.ktor.application.*
@@ -17,4 +19,5 @@ fun Application.configureKoin(koinModule: Module) {
 
 val rootDiModule = module {
     single<CustomerRepository> { CustomerRepositoryInMemory() }
+    single<AuthenticationRepository> { AuthenticationRepositoryInMemory() }
 }
