@@ -1,11 +1,14 @@
 package com.example.pk3
 
+import com.example.pk3.configuration.authentication.AuthenticationGroup
+import dispatchDigestAuthHeader
 import io.kotest.assertions.ktor.shouldHaveContent
 import io.kotest.assertions.ktor.shouldHaveStatus
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.throwable.shouldHaveMessage
 import io.ktor.http.*
 import io.ktor.server.testing.*
 import withTestRootModule
@@ -15,7 +18,7 @@ class ApplicationSpec : StringSpec({
         withTestRootModule {
             handleRequest(method = HttpMethod.Get, uri = "/").apply {
                 response shouldHaveStatus HttpStatusCode.OK
-                response.content shouldBe "Hello pk3!"
+                response shouldHaveContent "Hello pk3!"
             }
         }
     }
@@ -44,14 +47,31 @@ class ApplicationSpec : StringSpec({
                 }
             }
 
-            exception.message shouldBe "エラーテストページにアクセスしました"
+            exception shouldHaveMessage "エラーテストページにアクセスしました"
+        }
+    }
+    "GET: /test-digest-a" {
+        withTestRootModule {
+            handleRequest(method = HttpMethod.Get, uri = "/test-digest-a").apply {
+                response shouldHaveStatus HttpStatusCode.Unauthorized
+            }
+        }
+    }
+    "GET: /test-digest-a with user-password" {
+        withTestRootModule {
+            handleRequest(HttpMethod.Get, "/test-digest-a") {
+                addHeader(HttpHeaders.Authorization, dispatchDigestAuthHeader(AuthenticationGroup.DigestSampleA))
+            }.apply {
+                response shouldHaveStatus HttpStatusCode.OK
+                response shouldHaveContent "Authorized!"
+            }
         }
     }
     "GET: page not exist" {
         withTestRootModule {
             handleRequest(method = HttpMethod.Get, uri = "/page-0123456789abc").apply {
                 response shouldHaveStatus HttpStatusCode.NotFound
-                response.content shouldBe "Page not found"
+                response shouldHaveContent "Page not found"
             }
         }
     }
