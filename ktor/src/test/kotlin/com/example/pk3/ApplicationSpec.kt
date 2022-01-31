@@ -67,6 +67,23 @@ class ApplicationSpec : StringSpec({
             }
         }
     }
+    "GET: /test-digest-a/user" {
+        withTestRootModule {
+            handleRequest(method = HttpMethod.Get, uri = "/test-digest-a/user").apply {
+                response shouldHaveStatus HttpStatusCode.Unauthorized
+            }
+        }
+    }
+    "GET: /test-digest-a/user with user-password" {
+        withTestRootModule {
+            handleRequest(HttpMethod.Get, "/test-digest-a/user") {
+                addHeader(HttpHeaders.Authorization, dispatchDigestAuthHeader(AuthenticationGroup.DigestSampleA))
+            }.apply {
+                response shouldHaveStatus HttpStatusCode.OK
+                response shouldHaveContent "Hello user-abc at Digest"
+            }
+        }
+    }
     "GET: page not exist" {
         withTestRootModule {
             handleRequest(method = HttpMethod.Get, uri = "/page-0123456789abc").apply {

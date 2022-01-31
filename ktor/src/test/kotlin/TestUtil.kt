@@ -49,9 +49,10 @@ private object TestNonceManager : NonceManager {
     }
 }
 
-fun dispatchDigestAuthHeader(
+fun TestApplicationRequest.dispatchDigestAuthHeader(
     authenticationGroup: AuthenticationGroup
 ): String {
+    // println(uri) TODO uriごとにresponseを生成する
     if (authenticationGroup == AuthenticationGroup.DigestSampleA) {
         return """Digest username="user-abc", realm="Sample A Group", nonce="test-nonce-abc12345", uri="/test-digest-a", algorithm=MD5, response="a719c4f342c4ddeb930236cfedc79068""""
     } else {
