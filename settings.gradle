@@ -1,4 +1,5 @@
 rootProject.name = 'practice-ktor-3'
 include "ktor"
 include 'sub-sample'
+include 'flyway'
 

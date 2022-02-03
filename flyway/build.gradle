@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+    id 'org.flywaydb.flyway' version '6.2.0'
+}
+
+group "com.example.pk3"
+version "0.0.1"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+flyway {
+    url = "jdbc:mysql://ktor3_db:3306/ktor3_db"
+    user = "kmyuser"
+    password = "ksecret"
+}
