@@ -1,26 +1,21 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.flywaydb:flyway-mysql:8.4.4'
+        classpath 'org.flywaydb:flyway-gradle-plugin:8.4.4'
+        classpath 'mysql:mysql-connector-java:8.0.28'
+    }
+}
+
 plugins {
     id 'java'
-    id 'org.flywaydb.flyway' version '6.2.0'
-}
-
-group "com.example.pk3"
-version "0.0.1"
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
-}
-
-test {
-    useJUnitPlatform()
+    id "org.flywaydb.flyway" version "8.4.4"
 }
 
 flyway {
-    url = "jdbc:mysql://ktor3_db:3306/ktor3_db"
-    user = "kmyuser"
-    password = "ksecret"
+    url = "jdbc:mysql://localhost:3306/ktor3_db"
+    user = "root"
+    password = "passj"
 }
