@@ -31,6 +31,7 @@ dependencies {
     testImplementation "io.kotest:kotest-assertions-core:$kotest_version"
     testImplementation "io.kotest.extensions:kotest-assertions-ktor:1.0.3"
     testImplementation "io.kotest.extensions:kotest-extensions-koin:1.1.0"
+    testImplementation "io.kotest:kotest-assertions-json-jvm:5.1.0"
     testImplementation("io.insert-koin:koin-test:$koin_version")
 }
 

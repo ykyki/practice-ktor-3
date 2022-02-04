@@ -2,11 +2,11 @@ package com.example.pk3
 
 import com.example.pk3.configuration.authentication.AuthenticationGroup
 import dispatchDigestAuthHeader
+import io.kotest.assertions.json.shouldContainJsonKeyValue
 import io.kotest.assertions.ktor.shouldHaveContent
 import io.kotest.assertions.ktor.shouldHaveStatus
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
-import io.kotest.matchers.string.shouldStartWith
 import io.kotest.matchers.throwable.shouldHaveMessage
 import io.ktor.http.*
 import io.ktor.server.testing.*
@@ -25,7 +25,7 @@ class ApplicationSpec : StringSpec({
         withTestRootModule {
             handleRequest(method = HttpMethod.Get, uri = "/test-json").apply {
                 response shouldHaveStatus HttpStatusCode.OK
-                response.content shouldStartWith "{"
+                response.content.shouldContainJsonKeyValue("$.hello", "world")
             }
         }
     }

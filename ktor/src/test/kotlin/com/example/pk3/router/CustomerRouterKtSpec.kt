@@ -1,9 +1,11 @@
 package com.example.pk3.router
 
+import io.kotest.assertions.assertSoftly
+import io.kotest.assertions.json.shouldContainJsonKey
+import io.kotest.assertions.json.shouldContainJsonKeyValue
 import io.kotest.assertions.ktor.shouldHaveContent
 import io.kotest.assertions.ktor.shouldHaveStatus
 import io.kotest.core.spec.style.StringSpec
-import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.shouldStartWith
 import io.ktor.http.*
 import io.ktor.server.testing.*
@@ -14,7 +16,12 @@ class CustomerRouterKtSpec : StringSpec({
         withTestRootModule {
             handleRequest(method = HttpMethod.Get, uri = "/customer").apply {
                 response shouldHaveStatus HttpStatusCode.OK
-                response.content shouldNotBe null
+                assertSoftly(response.content) {
+                    shouldContainJsonKeyValue("$[0].id", "0")
+                    shouldContainJsonKeyValue("$[0].firstName", "Foo")
+                    shouldContainJsonKeyValue("$[0].lastName", "Bar")
+                    shouldContainJsonKey("$[0].email")
+                }
             }
         }
     }
