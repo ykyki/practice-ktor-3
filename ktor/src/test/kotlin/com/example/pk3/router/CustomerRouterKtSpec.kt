@@ -3,6 +3,7 @@ package com.example.pk3.router
 import io.kotest.assertions.assertSoftly
 import io.kotest.assertions.json.shouldContainJsonKey
 import io.kotest.assertions.json.shouldContainJsonKeyValue
+import io.kotest.assertions.json.shouldNotContainJsonKey
 import io.kotest.assertions.ktor.shouldHaveContent
 import io.kotest.assertions.ktor.shouldHaveStatus
 import io.kotest.core.spec.style.StringSpec
@@ -21,6 +22,7 @@ class CustomerRouterKtSpec : StringSpec({
                     shouldContainJsonKeyValue("$[0].firstName", "Foo")
                     shouldContainJsonKeyValue("$[0].lastName", "Bar")
                     shouldContainJsonKey("$[0].email")
+                    shouldNotContainJsonKey("$[1]")
                 }
             }
         }
