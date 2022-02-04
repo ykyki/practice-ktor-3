@@ -6,8 +6,7 @@ import io.kotest.assertions.ktor.shouldHaveContent
 import io.kotest.assertions.ktor.shouldHaveStatus
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.string.shouldStartWith
 import io.kotest.matchers.throwable.shouldHaveMessage
 import io.ktor.http.*
 import io.ktor.server.testing.*
@@ -26,7 +25,7 @@ class ApplicationSpec : StringSpec({
         withTestRootModule {
             handleRequest(method = HttpMethod.Get, uri = "/test-json").apply {
                 response shouldHaveStatus HttpStatusCode.OK
-                response.content shouldNotBe null
+                response.content shouldStartWith "{"
             }
         }
     }
@@ -43,7 +42,7 @@ class ApplicationSpec : StringSpec({
             val exception = shouldThrow<RuntimeException> {
                 handleRequest(method = HttpMethod.Get, uri = "/test-error").apply {
                     response shouldHaveStatus HttpStatusCode.InternalServerError
-                    response.content shouldBe "Internal Server Error"
+                    response shouldHaveContent "Internal Server Error"
                 }
             }
 

@@ -1,8 +1,8 @@
 package com.example.pk3.router
 
+import io.kotest.assertions.ktor.shouldHaveContent
 import io.kotest.assertions.ktor.shouldHaveStatus
 import io.kotest.core.spec.style.StringSpec
-import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.shouldStartWith
 import io.ktor.http.*
@@ -22,7 +22,7 @@ class CustomerRouterKtSpec : StringSpec({
         withTestRootModule {
             handleRequest(method = HttpMethod.Get, uri = "/customer/abc000").apply {
                 response shouldHaveStatus HttpStatusCode.BadRequest
-                response.content shouldBe "Request parameter id couldn't be parsed/converted to Long"
+                response shouldHaveContent "Request parameter id couldn't be parsed/converted to Long"
             }
         }
     }
@@ -30,7 +30,7 @@ class CustomerRouterKtSpec : StringSpec({
         withTestRootModule {
             handleRequest(method = HttpMethod.Get, uri = "/customer/9999").apply {
                 response shouldHaveStatus HttpStatusCode.NotFound
-                response.content shouldBe "No customer found (id = 9999)"
+                response shouldHaveContent "No customer found (id = 9999)"
             }
         }
     }
