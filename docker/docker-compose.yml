@@ -1,16 +1,31 @@
 version: "3"
 
 services:
+  #  db:
+  #    build: ./mysql
+  #    image: ktor3_mysql
+  #    volumes:
+  #      - mysql-volume:/var/lib/mysql/
+  #    environment:
+  #      MYSQL_ROOT_PASSWORD: passj
+  #      MYSQL_DATABASE: ktor3_db
+  #      MYSQL_USER: kmyuser
+  #      MYSQL_PASSWORD: ksecret
+  #      TZ: 'Asia/Tokyo'
+  #    ports:
+  #      - "3306:3306"
+  #    restart: always
+
   db:
-    build: ./mysql
-    image: ktor3_mysql
+    build: ./mariadb
+    image: ktor3_mariadb
     volumes:
-      - mysql-volume:/var/lib/mysql/
+      - mariadb-volume:/var/lib/mysql/
     environment:
-      MYSQL_ROOT_PASSWORD: passj
-      MYSQL_DATABASE: ktor3_db
-      MYSQL_USER: kmyuser
-      MYSQL_PASSWORD: ksecret
+      MARIADB_ROOT_PASSWORD: passj
+      MARIADB_DATABASE: ktor3_db
+      MARIADB_USER: kmyuser
+      MARIADB_PASSWORD: ksecret
       TZ: 'Asia/Tokyo'
     ports:
       - "3306:3306"
@@ -18,4 +33,6 @@ services:
 
 volumes:
   mysql-volume:
+    driver: local
+  mariadb-volume:
     driver: local
