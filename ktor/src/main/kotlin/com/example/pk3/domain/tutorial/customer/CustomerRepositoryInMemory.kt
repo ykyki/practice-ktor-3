@@ -1,10 +1,8 @@
 package com.example.pk3.domain.tutorial.customer
 
-import java.time.LocalDateTime
-
 class CustomerRepositoryInMemory : CustomerRepository {
     private val customerStorage = mutableListOf(
-        Customer(0, "Foo", "Bar", LocalDateTime.now().toString())
+        Customer(0, "Foo", "Bar", "example@example.com")
     )
 
     override fun findAll(): List<Customer> {

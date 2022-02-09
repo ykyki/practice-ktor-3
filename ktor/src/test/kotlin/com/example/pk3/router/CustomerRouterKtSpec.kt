@@ -1,15 +1,15 @@
 package com.example.pk3.router
 
-import io.kotest.assertions.assertSoftly
-import io.kotest.assertions.json.shouldContainJsonKey
-import io.kotest.assertions.json.shouldContainJsonKeyValue
-import io.kotest.assertions.json.shouldNotContainJsonKey
+import com.example.pk3.domain.tutorial.customer.Customer
 import io.kotest.assertions.ktor.shouldHaveContent
 import io.kotest.assertions.ktor.shouldHaveStatus
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.string.shouldStartWith
 import io.ktor.http.*
 import io.ktor.server.testing.*
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import shouldEqualJsonStrictly
 import withTestRootModule
 
 class CustomerRouterKtSpec : StringSpec({
@@ -17,13 +17,16 @@ class CustomerRouterKtSpec : StringSpec({
         withTestRootModule {
             handleRequest(method = HttpMethod.Get, uri = "/customer").apply {
                 response shouldHaveStatus HttpStatusCode.OK
-                assertSoftly(response.content) {
-                    shouldContainJsonKeyValue("$[0].id", "0")
-                    shouldContainJsonKeyValue("$[0].firstName", "Foo")
-                    shouldContainJsonKeyValue("$[0].lastName", "Bar")
-                    shouldContainJsonKey("$[0].email")
-                    shouldNotContainJsonKey("$[1]")
-                }
+                response.content!! shouldEqualJsonStrictly """
+                    [
+                        {
+                            "id": 0,
+                            "firstName": "Foo",
+                            "lastName": "Bar",
+                            "email": "example@example.com"
+                        }
+                    ]
+                """
             }
         }
     }
@@ -55,8 +58,19 @@ class CustomerRouterKtSpec : StringSpec({
                             "lastName": "山田",
                             "email": "test@example.com"
                           }
-                        """.trimIndent()
+                """
                 )
+            }.apply {
+                response shouldHaveStatus HttpStatusCode.Created
+                response.content shouldStartWith "Customer stored correctly!:"
+            }
+        }
+    }
+    "POST(correct customer 2): /customer" {
+        withTestRootModule {
+            handleRequest(method = HttpMethod.Post, uri = "/customer") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody(Json.encodeToString(Customer(546, "花子", "佐藤", "test@example.com")))
             }.apply {
                 response shouldHaveStatus HttpStatusCode.Created
                 response.content shouldStartWith "Customer stored correctly!:"

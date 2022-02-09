@@ -6,6 +6,7 @@ import com.example.pk3.domain.tutorial.customer.CustomerRepository
 import com.example.pk3.domain.tutorial.customer.CustomerRepositoryInMemory
 import com.example.pk3.rootRouter
 import com.typesafe.config.ConfigFactory
+import io.kotest.assertions.json.*
 import io.ktor.application.*
 import io.ktor.config.*
 import io.ktor.server.testing.*
@@ -31,6 +32,15 @@ private fun Application.testRootModule() {
 
     rootRouter()
 }
+
+infix fun String.shouldEqualJsonStrictly(other: String) =
+    this.shouldEqualJson(other, compareJsonOptions {
+        propertyOrder = PropertyOrder.Strict
+        arrayOrder = ArrayOrder.Strict
+        fieldComparison = FieldComparison.Strict
+        numberFormat = NumberFormat.Strict
+        typeCoercion = TypeCoercion.Disabled
+    })
 
 private val testRootDiModule = module {
     single<CustomerRepository> { CustomerRepositoryInMemory() }
