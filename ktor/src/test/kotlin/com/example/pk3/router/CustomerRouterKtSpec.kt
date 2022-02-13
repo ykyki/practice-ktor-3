@@ -18,16 +18,17 @@ class CustomerRouterKtSpec : FunSpec({
             withTestRootModule {
                 handleRequest(method = HttpMethod.Get, uri = "/customer").apply {
                     response shouldHaveStatus HttpStatusCode.OK
-                    response.content!! shouldEqualJsonStrictly """
-                    [
-                        {
-                            "id": 0,
-                            "firstName": "Foo",
-                            "lastName": "Bar",
-                            "email": "example@example.com"
-                        }
-                    ]
-                """
+                    response.content!! shouldEqualJsonStrictly
+                            """
+                                [
+                                    {
+                                        "id": 0,
+                                        "firstName": "Foo",
+                                        "lastName": "Bar",
+                                        "email": "example@example.com"
+                                    }
+                                ]
+                            """
                 }
             }
         }
@@ -37,13 +38,13 @@ class CustomerRouterKtSpec : FunSpec({
                     addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     setBody(
                         """
-                          {
-                            "id": 1234567890,
-                            "firstName": "太郎",
-                            "lastName": "山田",
-                            "email": "test@example.com"
-                          }
-                """
+                            {
+                              "id": 1234567890,
+                              "firstName": "太郎",
+                              "lastName": "山田",
+                              "email": "test@example.com"
+                            }
+                        """
                     )
                 }.apply {
                     response shouldHaveStatus HttpStatusCode.Created

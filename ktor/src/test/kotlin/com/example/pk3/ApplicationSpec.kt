@@ -29,11 +29,12 @@ class ApplicationSpec : FunSpec({
             withTestRootModule {
                 handleRequest(method = HttpMethod.Get, uri = "/test-json").apply {
                     response shouldHaveStatus HttpStatusCode.OK
-                    response.content!! shouldEqualJsonStrictly """
-                        {
-                            "hello": "world"
-                        }
-                    """
+                    response.content!! shouldEqualJsonStrictly
+                            """
+                                {
+                                    "hello": "world"
+                                }
+                            """
                 }
             }
         }
@@ -110,7 +111,7 @@ class ApplicationSpec : FunSpec({
     }
     context("割り当てられていないURL") {
         withData(
-            nameFn = { "${it.value}するとPage not found" },
+            nameFn = { "${it.value}するとNotFound" },
             HttpMethod.Get,
             HttpMethod.Post,
             HttpMethod.Put,

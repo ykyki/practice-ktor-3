@@ -18,8 +18,8 @@ class ParameterConverterKtSpec : FunSpec({
         withData(
             Assumption("index1", "1234567890", 1234567890L),
             Assumption("index-2", "0", 0)
-        ) { x ->
-            parametersOf(x.key, x.value).getLong(x.key) shouldBeExactly x.expected
+        ) {
+            parametersOf(it.key, it.value).getLong(it.key) shouldBeExactly it.expected
         }
         test("対応する値が複数あるときには最初のものを取る") {
             parametersOf("index-1", listOf("123", "456")).getLong("index-1") shouldBeExactly 123L
